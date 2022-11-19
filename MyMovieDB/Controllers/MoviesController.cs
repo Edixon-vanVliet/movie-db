@@ -132,12 +132,12 @@ public sealed class MoviesController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult PutMovie(int id, [FromBody] CreateMovieDTO movie)
+    public async Task<IActionResult> PutMovie(int id, [FromBody] CreateMovieDTO movie)
     {
         try
         {
             _logger.LogInformation($"Update Movie with ID: {id}");
-            Movie? updatedMovie = _movieRepository.Update(_mapper.Map<Movie>(movie));
+            Movie? updatedMovie = await _movieRepository.UpdateAsync(_mapper.Map<Movie>(movie));
 
             if (updatedMovie is null)
             {

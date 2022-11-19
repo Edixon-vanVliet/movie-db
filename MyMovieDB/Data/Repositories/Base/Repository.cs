@@ -25,8 +25,8 @@ public class Repository<T> : IRepository<T> where T : BaseModel
         if (entity is not null)
         {
             _context.Set<T>().Remove(entity);
+            await SaveChangesAsync();
         }
-        await SaveChangesAsync();
 
         return entity;
     }
@@ -41,9 +41,20 @@ public class Repository<T> : IRepository<T> where T : BaseModel
         return await _context.Set<T>().ToListAsync();
     }
 
-    public virtual T Update(T entity)
+    public virtual async Task<T?> UpdateAsync(T entity)
     {
-        return _context.Set<T>().Update(entity).Entity;
+        T? entityInDB = await GetAsync(entity.Id);
+        _context.ChangeTracker.Clear();
+
+        if (entityInDB is not null)
+        {
+            T updatedEntity = _context.Set<T>().Update(entity).Entity;
+            await SaveChangesAsync();
+
+            return updatedEntity;
+        }
+
+        return null;
     }
 
     protected async Task SaveChangesAsync()
