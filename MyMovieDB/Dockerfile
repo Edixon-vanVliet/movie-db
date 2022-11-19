@@ -11,10 +11,9 @@ USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["MyMovieDB/MyMovieDB.csproj", "MyMovieDB/"]
-RUN dotnet restore "MyMovieDB/MyMovieDB.csproj"
+COPY "./MyMovieDB.csproj" "."
+RUN dotnet restore "MyMovieDB.csproj"
 COPY . .
-WORKDIR "/src/MyMovieDB"
 RUN dotnet build "MyMovieDB.csproj" -c Release -o /app/build
 
 FROM build AS publish
