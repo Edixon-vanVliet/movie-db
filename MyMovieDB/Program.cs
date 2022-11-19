@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
+using MyMovieDB.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,13 @@ builder.Services
     .AddRepositories()
     .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = (context) =>
+        {
+            return new BadRequestObjectResult(new BadRequest(context));
+        };
+    });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
