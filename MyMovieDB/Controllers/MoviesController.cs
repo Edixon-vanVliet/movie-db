@@ -117,7 +117,8 @@ public sealed class MoviesController : ControllerBase
         try
         {
             _logger.LogInformation($"Add review to movie with ID: {id}.");
-            Review newReview = await _movieRepository.AddReviewAsync(_mapper.Map<Review>(review));
+            Review newReview = _mapper.Map<Review>(review);
+            await _movieRepository.AddReviewAsync(newReview);
 
             return CreatedAtAction(
                 nameof(GetReviews),

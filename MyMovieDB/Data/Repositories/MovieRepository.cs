@@ -51,12 +51,10 @@ public sealed class MovieRepository : Repository<Movie>
         );
     }
 
-    public async Task<Review> AddReviewAsync(Review review)
+    public async Task AddReviewAsync(Review review)
     {
-        Review newReview = (await _context.Reviews.AddAsync(review)).Entity;
+        await _context.Reviews.AddAsync(review);
 
         await SaveChangesAsync();
-
-        return newReview;
     }
 }
