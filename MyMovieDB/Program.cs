@@ -20,6 +20,10 @@ builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var port = Environment.GetEnvironmentVariable("PORT");
+
+builder.WebHost.UseUrls("http://*:" + Environment.GetEnvironmentVariable("PORT"));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
