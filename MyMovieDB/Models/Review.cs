@@ -12,14 +12,14 @@ public sealed class Review : BaseModel
         Comment = "";
     }
 
-    public Review(int movieId, string name, string comment)
+    public Review(int movieId, string user, string comment)
     {
         MovieId = movieId;
-        User = name;
+        User = user;
         Comment = comment;
     }
 
-    public Review(int id, int movieId, string name, string comment) : this(movieId, name, comment)
+    public Review(int id, int movieId, string user, string comment) : this(movieId, user, comment)
     {
         Id = id;
     }
